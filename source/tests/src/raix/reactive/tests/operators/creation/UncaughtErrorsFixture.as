@@ -5,6 +5,7 @@ package raix.reactive.tests.operators.creation
 	import flash.events.EventDispatcher;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.utils.setTimeout;
 	
 	import mx.core.Application;
 	
@@ -12,7 +13,7 @@ package raix.reactive.tests.operators.creation
 	import org.flexunit.async.Async;
 	
 	import raix.reactive.Observable;
-	import raix.reactive.tests.mocks.StatsObserver; 
+	import raix.reactive.tests.mocks.StatsObserver;
 	
 	public class UncaughtErrorsFixture
 	{
