@@ -3,8 +3,8 @@ package raix.reactive
 	import flash.errors.IllegalOperationError;
 	import flash.utils.getQualifiedClassName;
 	
-	import raix.reactive.impl.*;
-	import raix.reactive.scheduling.*;
+	import raix.reactive.scheduling.IScheduler;
+	import raix.reactive.scheduling.Scheduler;
 	import raix.reactive.subjects.AsyncSubject;
 	import raix.reactive.subjects.ConnectableObservable;
 	import raix.reactive.subjects.IConnectableObservable;
@@ -798,7 +798,10 @@ package raix.reactive
 					{
 						count++;
 					},
-					function () : void { observer.onNext(count); observer.onCompleted(); },
+					function () : void {
+						observer.onNext(count);
+						observer.onCompleted();
+					},
 					observer.onError);
 					
 				return source.subscribeWith(dec);
@@ -1337,6 +1340,14 @@ package raix.reactive
 		/**
 		 * @inheritDoc
 		 */
+		/**
+		 * 
+		 * @param keySelector
+		 * @param durationSelector
+		 * @param elementSelector
+		 * @param keyComparer
+		 * @return 
+		 */
 		public function groupByUntil(keySelector : Function, durationSelector : Function, elementSelector : Function = null,  keyComparer : Function = null) : IObservable
 		{
 			var source : IObservable = this;
@@ -1436,7 +1447,13 @@ package raix.reactive
 						    durationSubscriptions.add(durationSubscription);
 						    
 						    observer.onNext(group);
-						    groupSubject.onNext(element);
+							
+							// Dispatch the element on the Scheduler, because
+							// observers may have been added to the group that
+							// are awaiting subscription in the Scheduler queue.
+							Scheduler.immediate.schedule(function():void {
+							    groupSubject.onNext(element);
+							}, 1);
 							
 							durationSubscription.cancelable = groupDuration
 								.take(1).subscribe(null, function():void
@@ -2548,7 +2565,9 @@ package raix.reactive
 				]);
 				
 				otherSubscription.cancelable = other.subscribe(
-					function (value : Object) : void { observer.onCompleted(); },
+					function (value : Object) : void {
+						observer.onCompleted();
+					},
 					observer.onCompleted,
 					observer.onError
 					);
