@@ -549,6 +549,15 @@ package raix.reactive
 		 */		
 		function mapMany(selector : Function) : IObservable;
 		
+		/**
+		 * Maps the values from a source sequence through a function to change their value, then
+		 * appends the new value to the previous arguments list. The returned arguments list is
+		 * always kept unique.  
+		 * @param selector The function to be executed with each value
+		 * @return An observable sequence of valueClass result
+		 */
+		function mappend(selector:Function):IObservable;
+		
 		[Deprecated(replacement="mapMany")]
 		/**
 		 * Starts a new sequence, returned by selector, for every value in the source sequence and merges their values

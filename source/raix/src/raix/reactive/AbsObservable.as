@@ -1,6 +1,7 @@
 package raix.reactive
 {
 	import flash.errors.IllegalOperationError;
+	import flash.utils.Dictionary;
 	import flash.utils.getQualifiedClassName;
 	
 	import raix.reactive.scheduling.IScheduler;
@@ -2092,6 +2093,26 @@ package raix.reactive
 			var source : IObservable = this;
 			
 			return Observable.merge(this.map(selector)); 
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function mappend(selector:Function):IObservable
+		{
+			return map(function(...args):Array {
+				args = [].concat.apply(null, args);
+				args.push(selector.apply(null, args));
+				
+				const result:Array = [];
+				
+				args.forEach(function(e:*, ...a):void {
+					if(result.indexOf(e) != -1) return;
+					result[result.length] = e;
+				});
+				
+				return result;
+			});
 		}
 		
 		/**
