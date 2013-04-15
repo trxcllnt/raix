@@ -426,7 +426,15 @@ package raix.interactive
 		 * @param second The sequence to enumerate after the first sequence
 		 * @return A new sequence that contains the values from the first and second sequence, in order
 		 */		
-		function concat(second : IEnumerable) : IEnumerable;	
+		function concat(second : IEnumerable) : IEnumerable;
+		
+		/**
+		 * Concatenates each IObservable value, pulling the next value from the
+		 * IEnumerable as each IObservable completes.
+		 * 
+		 * @return An IObservable<T>
+		 */
+		function concatObservables(scheduler:IScheduler = null):IObservable;
 		
 		/**
 		 * Projects (converts) values using a selector function. Uses deferred execution

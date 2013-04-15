@@ -5,6 +5,7 @@ package raix.interactive
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	
+	import raix.reactive.CompositeCancelable;
 	import raix.reactive.ICancelable;
 	import raix.reactive.IObservable;
 	import raix.reactive.IObserver;
@@ -971,6 +972,51 @@ package raix.interactive
 					return true;
 				},
 				function():Object { return innerEnumerator.current; });
+			});
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function concatObservables(scheduler:IScheduler = null):IObservable
+		{
+			scheduler ||= Scheduler.defaultScheduler;
+			const source:IEnumerable = this;
+			
+			return Observable.createWithCancelable(function(observer:IObserver):ICancelable {
+				
+				const iterator:IEnumerator = source.getEnumerator();
+				const subscriptions:CompositeCancelable = new CompositeCancelable();
+				
+				var schedule:Function = function():void {
+					subscriptions.add(Scheduler.scheduleRecursive(scheduler, function(reschedule:Function):void {
+						
+						schedule = reschedule;
+						
+						const obs:IObservable = IObservable(iterator.current);
+						
+						const completed:Function = function():void {
+							subscriptions.remove(subscription);
+							recurse();
+						};
+						
+						const subscription:ICancelable = obs.subscribe(observer.onNext, completed, observer.onError);
+						
+						subscriptions.add(subscription);
+					}));
+				};
+				
+				const recurse:Function = function():void {
+					if(iterator.moveNext()) {
+						schedule();
+					} else {
+						scheduler.schedule(observer.onCompleted);
+					}
+				};
+				
+				recurse();
+				
+				return subscriptions;
 			});
 		}
 		
