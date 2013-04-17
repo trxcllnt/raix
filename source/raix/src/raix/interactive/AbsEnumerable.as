@@ -983,13 +983,16 @@ package raix.interactive
 			scheduler ||= Scheduler.defaultScheduler;
 			const source:IEnumerable = this;
 			
-			return Observable.createWithCancelable(function(observer:IObserver):ICancelable {
+			return Observable.create(function(observer:IObserver):Function {
 				
+				var canceled:Boolean = false;
 				const iterator:IEnumerator = source.getEnumerator();
 				const subscriptions:CompositeCancelable = new CompositeCancelable();
 				
 				var schedule:Function = function():void {
 					subscriptions.add(Scheduler.scheduleRecursive(scheduler, function(reschedule:Function):void {
+						
+						if(canceled) return;
 						
 						schedule = reschedule;
 						
@@ -1007,6 +1010,8 @@ package raix.interactive
 				};
 				
 				const recurse:Function = function():void {
+					if(canceled) return;
+					
 					if(iterator.moveNext()) {
 						schedule();
 					} else {
@@ -1016,7 +1021,10 @@ package raix.interactive
 				
 				recurse();
 				
-				return subscriptions;
+				return function():void {
+					canceled = true;
+					subscriptions.cancel();
+				};
 			});
 		}
 		
