@@ -75,7 +75,7 @@ package raix.reactive
 		 * @param dictionary The dictionary of sequences
 		 * @return An observable sequence of valueClass
 		 */		
-		public static function lookup(keySelector : Function, dictionary : Dictionary) : IObservable
+		public static function lookup(keySelector : Function, dictionary : Object) : IObservable
 		{
 			if (dictionary == null) throw new ArgumentError("dictionary cannot be null");
 			if (keySelector == null) throw new ArgumentError("keySelector cannot be null");
