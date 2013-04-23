@@ -5,6 +5,7 @@ package raix.interactive
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	
+	import raix.reactive.Cancelable;
 	import raix.reactive.CompositeCancelable;
 	import raix.reactive.ICancelable;
 	import raix.reactive.IObservable;
@@ -978,7 +979,7 @@ package raix.interactive
 		/**
 		 * @inheritDoc
 		 */
-		public function concatObservables(scheduler:IScheduler = null):IObservable
+		public function concatMany(scheduler:IScheduler = null):IObservable
 		{
 			scheduler ||= Scheduler.defaultScheduler;
 			const source:IEnumerable = this;

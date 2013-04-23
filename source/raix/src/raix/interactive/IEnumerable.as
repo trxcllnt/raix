@@ -429,12 +429,11 @@ package raix.interactive
 		function concat(second : IEnumerable) : IEnumerable;
 		
 		/**
-		 * Concatenates each IObservable value, pulling the next value from the
-		 * IEnumerable as each IObservable completes.
+		 * Concatenates each IObservable value.
 		 * 
 		 * @return An IObservable<T>
 		 */
-		function concatObservables(scheduler:IScheduler = null):IObservable;
+		function concatMany(scheduler:IScheduler = null):IObservable;
 		
 		/**
 		 * Projects (converts) values using a selector function. Uses deferred execution
