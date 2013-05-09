@@ -2093,18 +2093,8 @@ package raix.reactive
 		 */
 		public function mappend(selector:Function):IObservable
 		{
-			return map(function(...args):Array {
-				args = [].concat.apply(null, args);
-				args.push(selector.apply(null, args));
-				
-				const result:Array = [];
-				
-				args.forEach(function(e:*, ...a):void {
-					if(result.indexOf(e) != -1) return;
-					result[result.length] = e;
-				});
-				
-				return result;
+			return map(function(args:Array):Array {
+				return args.concat(selector.apply(null, args));
 			});
 		}
 		

@@ -22,7 +22,7 @@ package raix.interactive
 		
 		if (args[0] is Array)
 		{
-			return Enumerable.fromArray(args[0]);
+			return Enumerable.fromArray.apply(null, args);
 		}
 		
 		if (args[0] is IEnumerable)
@@ -33,6 +33,11 @@ package raix.interactive
 		if (args[0] is Proxy)
 		{
 			return Enumerable.fromProxy(args[0]);
+		}
+		
+		if (args[0] is XMLList)
+		{
+			return Enumerable.fromXMLList.apply(null, args);
 		}
 		
 		return Enumerable.value(args[0]);

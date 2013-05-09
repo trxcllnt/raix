@@ -74,14 +74,30 @@ package raix.interactive
 		 * @param array The array to enumerate
 		 * @return An IEnumerable containing values of the same type as array
 		 */		
-		public static function fromArray(array : Array) : IEnumerable
+		public static function fromArray(array : Array, start:int = 0) : IEnumerable
 		{
 			var length : int = array.length;
 			
-			return generate(0,
+			return generate(start,
 				function(i:int):Boolean { return i<length; },
 				function(i:int):int { return i+1; },
 				function(i:int):Object { return array[i]; }
+				);
+		}
+		
+		/**
+		 * Creates an enumerable sequence from an array 
+		 * @param array The array to enumerate
+		 * @return An IEnumerable containing values of the same type as array
+		 */		
+		public static function fromXMLList(list : XMLList, start:int = 0) : IEnumerable
+		{
+			var length : int = list.length();
+			
+			return generate(start,
+				function(i:int):Boolean { return i<length; },
+				function(i:int):int { return i+1; },
+				function(i:int):Object { return list[i]; }
 				);
 		}
 		
