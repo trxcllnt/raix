@@ -17,7 +17,7 @@ package raix.reactive
 		 */
 		public function CompositeCancelable(values : Array = null)
 		{
-			_cancelables = (values || []).slice();
+			_cancelables = (values) ? values.concat() : [];
 		}
 		
 		/**
@@ -42,9 +42,10 @@ package raix.reactive
 		 */
 		public function remove(cancelable : ICancelable) : void
 		{
-			for (var i:int=0; i<_cancelables.length; i++)
+			var len:int = _cancelables.length;
+			for (var i:int=0; i<len; i++)
 			{
-				if (_cancelables[i] == cancelable)
+				if (_cancelables[i] === cancelable)
 				{
 					_cancelables.splice(i, 1);
 					break;
@@ -78,7 +79,7 @@ package raix.reactive
 		 */
 		public function get cancelables() : Array
 		{
-			return _cancelables.slice();
+			return _cancelables.concat();
 		}
 	}
 }

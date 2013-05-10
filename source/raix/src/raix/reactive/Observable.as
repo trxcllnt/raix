@@ -3,16 +3,20 @@ package raix.reactive
 	import flash.display.LoaderInfo;
 	import flash.errors.IOError;
 	import flash.errors.IllegalOperationError;
-	import flash.events.*;
+	import flash.events.Event;
+	import flash.events.EventPhase;
+	import flash.events.IEventDispatcher;
+	import flash.events.IOErrorEvent;
+	import flash.events.SecurityErrorEvent;
 	import flash.net.URLLoader;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
 	import flash.system.LoaderContext;
 	import flash.utils.Dictionary;
 	
-	import raix.reactive.flex.*;
-	import raix.reactive.impl.*;
-	import raix.reactive.scheduling.*;
+	import raix.reactive.scheduling.IScheduler;
+	import raix.reactive.scheduling.ImmediateScheduler;
+	import raix.reactive.scheduling.Scheduler;
 	import raix.reactive.subjects.AsyncSubject;
 	import raix.reactive.subjects.ReplaySubject;
 
@@ -35,7 +39,7 @@ package raix.reactive
 		 */		
 		public static function amb(sources : Array/*.<IObservable>*/) : IObservable
 		{
-			sources = sources.slice();
+			sources = sources.concat();
 			
 			return new ClosureObservable(function(observer : IObserver) : ICancelable
 			{
@@ -95,7 +99,7 @@ package raix.reactive
 				
 				var val : Object = dictionary[key];
 				
-				if (val == undefined)
+				if (val === undefined)
 				{
 					return Observable.empty();
 				}
@@ -333,8 +337,8 @@ package raix.reactive
 		{
 			return new ClosureObservable(function(observer : IObserver) : ICancelable
 			{
-				var activePlans : Array = new Array().concat(plans);
-				var sources : Array = new Array();
+				var activePlans : Array = plans.concat();
+				var sources : Array = [];
 				var queues : Dictionary = new Dictionary();
 				var completed : Dictionary = new Dictionary();
 				
@@ -355,7 +359,7 @@ package raix.reactive
 						if (queues[source] == undefined)
 						{
 							sources.push(source);
-							queues[source] = new Array();
+							queues[source] = [];
 							completed[source] = false;
 						}
 					}
@@ -367,7 +371,7 @@ package raix.reactive
 					
 					for each(var plan : Plan in activePlans)
 					{
-						var args : Array = new Array();
+						var args : Array = [];
 						
 						for each(source in plan.sources)
 						{
@@ -418,7 +422,7 @@ package raix.reactive
 				
 				var checkComplete : Function = function():void
 				{
-					var tempPlans : Array = new Array().concat(activePlans);
+					var tempPlans : Array = activePlans.concat();
 					
 					for each(var plan : Plan in tempPlans)
 					{
@@ -440,7 +444,7 @@ package raix.reactive
 					
 				var subscriptions : CompositeCancelable = new CompositeCancelable([]);
 				
-				var tempSources : Array = sources.concat([]);
+				var tempSources : Array = sources.concat();
 					
 				for each(source in tempSources)
 				{
@@ -494,19 +498,20 @@ package raix.reactive
 				throw new ArgumentError("At least two sources must be passed to forkJoin"); 
 			}
 			
-			sources = new Array().concat(sources);
+			sources = sources.concat();
 			
 			return new ClosureObservable(function(observer : IObserver) : ICancelable
 			{
-				var hasValue : Array = new Array(sources.length);
-				var isComplete : Array = new Array(sources.length);
-				var values : Array = new Array();
+				var sourceLen:int = sources.length;
+				var hasValue : Array = new Array(sourceLen);
+				var isComplete : Array = new Array(sourceLen);
+				var values : Array = [];
 				
 				var subscriptions : CompositeCancelable = new CompositeCancelable([]);
 				
 				var booleanPredicate : Function = function(v:Boolean, i:int, a:Array) : Boolean { return v; };
 				
-				for (var i:int =0;i<sources.length; i++)
+				for (var i:int =0;i<sourceLen; i++)
 				{
 					(function(i:int):void
 					{
@@ -699,11 +704,11 @@ package raix.reactive
 			scheduler = scheduler || Scheduler.synchronous;
 			
 			// Make internally immutable
-			sources = new Array().concat(sources);
+			sources = sources.concat();
 			
 			return new ClosureObservable(function(obs:IObserver) : ICancelable
 			{
-				var remainingSources : Array = new Array().concat(sources);
+				var remainingSources : Array = sources.concat();
 				
 				var subscription : ICancelable = null;
 				var futureSubscription : MutableCancelable = new MutableCancelable();
@@ -868,7 +873,7 @@ package raix.reactive
 		{
 			scheduler = scheduler || Scheduler.synchronous;
 			
-			values = values.slice();
+			values = values.concat();
 			
 			return Observable.generate(0,
 				function(i : int):Boolean { return i < values.length; },
@@ -917,11 +922,11 @@ package raix.reactive
 			scheduler = scheduler || Scheduler.synchronous;
 			
 			// Make internally immutable
-			sources = new Array().concat(sources);
+			sources = sources.concat();
 			
 			return new ClosureObservable(function(obs:IObserver) : ICancelable
 			{
-				var remainingSources : Array = new Array().concat(sources);
+				var remainingSources : Array = sources.concat();
 				
 				var subscription : MutableCancelable = new MutableCancelable();
 				var scheduledAction : MutableCancelable = new MutableCancelable();

@@ -19,7 +19,7 @@ package raix.reactive.scheduling
 	public class GreenThreadScheduler implements IScheduler
 	{
 		private var _runningAction : Boolean = false;
-		private var _pendingActions : Array = new Array();
+		private var _pendingActions : Array = [];
 		
 		private var _contextSwitchObservable : IObservable;
 		private var _contextSwitchSubscription : ICancelable;;

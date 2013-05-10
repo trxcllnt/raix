@@ -24,7 +24,7 @@ package raix.reactive
 		 */		
 		public function get sources() : Array
 		{
-			return _sources.slice();
+			return _sources.concat();
 		}
 		
 		/**

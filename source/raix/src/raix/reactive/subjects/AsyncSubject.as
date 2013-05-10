@@ -24,7 +24,7 @@ package raix.reactive.subjects
 		
 		private var _complete : Boolean = false;		
 		private var _lastValue : Notification;
-		private var _observers : Array = new Array();
+		private var _observers : Array = [];
 		
 		public function AsyncSubject(scheduler : IScheduler = null)
 		{
