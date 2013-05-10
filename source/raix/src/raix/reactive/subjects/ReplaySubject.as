@@ -12,10 +12,10 @@ package raix.reactive.subjects
 		
 		private var _complete : Boolean = false;		
 		
-		private var _values : Array = new Array(); // of Timestamp of Notification
+		private var _values : Array = []; // of Timestamp of Notification
 		
-		private var _liveObservers : Array = new Array();
-		private var _observerValues : Array = new Array(); // of Array of Timestamp of Notification
+		private var _liveObservers : Array = [];
+		private var _observerValues : Array = []; // of Array of Timestamp of Notification
 		
 		public function ReplaySubject(bufferSize : uint = 0, 
 			window : uint = 0, scheduler : IScheduler = null)
@@ -29,7 +29,7 @@ package raix.reactive.subjects
 		{
 			removeInvalidValues();
 			
-			var observerValues : Array = new Array(); // of Timestamp of Notification
+			var observerValues : Array = []; // of Timestamp of Notification
 			observerValues = observerValues.concat(_values);
 			
 			_observerValues.push(observerValues);

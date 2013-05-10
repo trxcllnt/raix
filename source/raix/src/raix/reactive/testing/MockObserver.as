@@ -12,11 +12,11 @@ package raix.reactive.testing
 	
 	public class MockObserver implements IObserver
 	{
-		private var _values : Array = new Array();
+		private var _values : Array = [];
 		private var _completed : Boolean = false;
 		private var _error : Error = null;
 		
-		private var _recordedNotificatons : Array = new Array();
+		private var _recordedNotificatons : Array = [];
 		private var _scheduler : TestScheduler;
 		
 		public function MockObserver(scheduler : TestScheduler)
@@ -26,7 +26,7 @@ package raix.reactive.testing
 		
 		public function get recordedNotifications() : Array
 		{
-			return _recordedNotificatons.slice(0);
+			return _recordedNotificatons.concat();
 		}
 		
 		public function completed() : Boolean
@@ -108,8 +108,9 @@ package raix.reactive.testing
     		var expected : Array = recordedNotifications;
     		
     		valueComparer = valueComparer || defaultComparer;
-    		
-    		for (var i:int=0; i<expected.length; i++)
+    		var len:int = expected.length;
+			
+    		for (var i:int=0; i<len; i++)
     		{
     			if (_recordedNotificatons.length < i + 1)
     			{
@@ -139,8 +140,9 @@ package raix.reactive.testing
     		var expected : Array = expectedNotifications;
     		
     		valueComparer = valueComparer || defaultComparer;
-    		
-    		for (var i:int=0; i<expected.length; i++)
+    		var len:int = expected.length;
+			
+    		for (var i:int=0; i<len; i++)
     		{
     			if (_recordedNotificatons.length < i + 1)
     			{

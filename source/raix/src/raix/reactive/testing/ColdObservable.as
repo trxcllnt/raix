@@ -11,7 +11,7 @@ package raix.reactive.testing
 		private var _scheduler : TestScheduler;
 		private var _messages : Array;
 		
-		private var _subscriptions : Array = new Array();
+		private var _subscriptions : Array = [];
 		
 		public function ColdObservable(scheduler : TestScheduler, messages : Array)
 		{

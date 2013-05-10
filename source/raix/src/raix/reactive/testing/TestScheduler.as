@@ -9,7 +9,7 @@ package raix.reactive.testing
 	 */	
 	public class TestScheduler implements IScheduler
 	{
-		private var _scheduledActions : Array = new Array();
+		private var _scheduledActions : Array = [];
 		private var _now : Number = 0;
 		
 		public function TestScheduler()

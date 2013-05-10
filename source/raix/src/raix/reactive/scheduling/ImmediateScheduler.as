@@ -4,9 +4,7 @@ package raix.reactive.scheduling
 	import flash.utils.Timer;
 	
 	import raix.reactive.Cancelable;
-	import raix.reactive.ClosureCancelable;
 	import raix.reactive.ICancelable;
-	import raix.reactive.scheduling.TimerPool;
 	
 	/**
 	 * A scheduler that executes actions immediately, or immediately
@@ -15,7 +13,7 @@ package raix.reactive.scheduling
 	public class ImmediateScheduler implements IScheduler
 	{
 		private var _runningAction : Boolean = false;
-		private var _pendingActions : Array = new Array();
+		private var _pendingActions : Array = [];
 		
 		/**
 		 * @inheritDoc

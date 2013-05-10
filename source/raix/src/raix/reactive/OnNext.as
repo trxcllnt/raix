@@ -1,9 +1,5 @@
 package raix.reactive
 {
-	import raix.reactive.IObserver;
-	import raix.reactive.Notification;
-	import raix.reactive.NotificationKind;
-	
 	/**
 	 * A Notification for an onNext call
 	 */

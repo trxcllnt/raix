@@ -59,7 +59,7 @@ package raix.interactive
 			var indexes : Array = new Array(length);
 			var keys : Array = new Array(length);
 			
-			for (var i:int = 0; i<indexes.length; i++)
+			for (var i:int = 0; i<length; i++)
 			{
 				indexes[i] = i;
 				keys[i] = _compositeSelector(data[i]);
@@ -67,7 +67,7 @@ package raix.interactive
 			
 			var nextYield : int = 0;
 			
-			var stack : Array = new Array();
+			var stack : Array = [];
 			stack.push(new LeftRight(0, length - 1));
 			
 			var currentValue : Object = null;

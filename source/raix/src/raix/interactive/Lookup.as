@@ -7,7 +7,7 @@ package raix.interactive
 		private static var _nullKey : Object = {};
 		
 		private var _hashMap : Dictionary = new Dictionary();
-		private var _keys : Array = new Array();
+		private var _keys : Array = [];
 		
 		private var _hashSelector : Function;
 		
@@ -26,7 +26,7 @@ package raix.interactive
 			
 			if (_hashMap[hashedKey] === undefined)
 			{
-				values = new Array();
+				values = [];
 				
 				_hashMap[hashedKey] = values;
 				_keys.push(key);
