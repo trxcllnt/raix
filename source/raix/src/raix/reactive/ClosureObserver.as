@@ -1,8 +1,5 @@
 package raix.reactive
 {
-	import raix.reactive.IObserver;
-	import raix.reactive.Observable;
-	
 	internal class ClosureObserver implements IObserver
 	{
 		private var _onNext : Function;		

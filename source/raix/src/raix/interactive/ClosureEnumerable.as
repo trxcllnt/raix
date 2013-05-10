@@ -1,13 +1,8 @@
 package raix.interactive
 {
-	import flash.errors.IllegalOperationError;
-	import flash.utils.Proxy;
-	import flash.utils.flash_proxy;
-	
 	internal class ClosureEnumerable extends AbsEnumerable
 	{
 		private var _createEnumerator : Function;
-		
 		
 		public function ClosureEnumerable(createEnumerator : Function)
 		{

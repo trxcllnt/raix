@@ -5,7 +5,7 @@ package raix.reactive.scheduling
 	
 	internal class TimerPool
 	{
-		private var _pool : Array = new Array();
+		private var _pool : Array = [];
 		
 		private var _capacity : int;
 		
@@ -28,7 +28,7 @@ package raix.reactive.scheduling
 			
 			if (size > 0)
 			{
-				return _pool.shift() as Timer;
+				return _pool.shift();
 			}
 			else
 			{

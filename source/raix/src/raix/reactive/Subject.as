@@ -15,7 +15,7 @@ package raix.reactive
 		private var _isFinished : Boolean = false;
 		private var _subscriptionCount : uint = 0;
 		
-		private var _observers : Array = new Array();
+		private var _observers : Array = [];
 		
 		public function Subject()
 		{
@@ -50,7 +50,7 @@ package raix.reactive
 		{
 			if (!_isFinished)
 			{
-				var observers : Array = _observers.slice();
+				var observers : Array = _observers.concat();
 				
 				for each(var obs : IObserver in observers)
 				{
@@ -68,7 +68,7 @@ package raix.reactive
 			{
 				_isFinished = true;
 				
-				var observers : Array = _observers.slice();
+				var observers : Array = _observers.concat();
 				
 				for each(var obs : IObserver in observers)
 				{
@@ -88,7 +88,7 @@ package raix.reactive
 			{
 				_isFinished = true;
 				
-				var observers : Array = _observers.slice();
+				var observers : Array = _observers.concat();
 				
 				for each(var obs : IObserver in observers)
 				{

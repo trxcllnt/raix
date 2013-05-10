@@ -5,7 +5,6 @@ package raix.interactive
 	import flash.utils.Proxy;
 	import flash.utils.flash_proxy;
 	
-	import raix.reactive.Cancelable;
 	import raix.reactive.CompositeCancelable;
 	import raix.reactive.ICancelable;
 	import raix.reactive.IObservable;
@@ -1325,7 +1324,7 @@ package raix.interactive
 		 */
 		public function toArray() : Array
 		{
-			var output : Array = new Array();
+			var output : Array = [];
 			
 			for each(var value : Object in this)
 			{

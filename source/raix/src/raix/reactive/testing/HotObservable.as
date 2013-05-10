@@ -10,8 +10,8 @@ package raix.reactive.testing
 		private var _scheduler : TestScheduler;
 		private var _messages : Array;
 		
-		private var _observers : Array = new Array();
-		private var _subscriptions : Array = new Array();
+		private var _observers : Array = [];
+		private var _subscriptions : Array = [];
 		
 		public function HotObservable(scheduler : TestScheduler, messages : Array)
 		{
@@ -23,7 +23,7 @@ package raix.reactive.testing
 				(function(recordedNotification : Recorded) : void {
 					_scheduler.schedule(function() : void
 					{
-						var observers : Array = _observers.slice();
+						var observers : Array = _observers.concat();
 						
 						for each(var observer : IObserver in observers)
 						{					

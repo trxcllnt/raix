@@ -14,7 +14,7 @@ package raix.reactive.flex
 	{
 		private var _valueClass : Class;
 		
-		private var _observers : Array = new Array();
+		private var _observers : Array = [];
 		
 		private var _isComplete : Boolean = false;
 		
@@ -32,7 +32,7 @@ package raix.reactive.flex
 			{
 				_isComplete = true;
 				
-				var observers : Array = _observers.slice();
+				var observers : Array = _observers.concat();
 				
 				for each(var observer : IObserver in observers)
 				{
@@ -53,8 +53,8 @@ package raix.reactive.flex
 			
 				var error : Error = getFaultError(info);
 				
-				var observers : Array = _observers.slice();
-			
+				var observers : Array = _observers.concat();
+	
 				for each(var observer : IObserver in observers)
 				{
 					observer.onError(error);

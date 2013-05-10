@@ -218,7 +218,7 @@ package raix.reactive
 			
 			return new ClosureObservable(function(observer : IObserver):ICancelable
 			{
-				var activeWindows : Array = new Array();
+				var activeWindows : Array = [];
 				var valueCount : int = 0;
 				
 				var createWindow : Function = function():void
@@ -254,7 +254,8 @@ package raix.reactive
 					},
 					function():void
 					{
-						for (var i:int=0; i<activeWindows.length; i++)
+						var len:int = activeWindows.length;
+						for (var i:int=0; i<len; i++)
 						{
 							activeWindows[i].onCompleted();
 						}
@@ -265,7 +266,8 @@ package raix.reactive
 						
 					}, function(e:Error):void
 					{
-						for (var i:int=0; i<activeWindows.length; i++)
+						var len:int = activeWindows.length;
+						for (var i:int=0; i<len; i++)
 						{
 							activeWindows[i].onError(e);
 						}
@@ -312,7 +314,7 @@ package raix.reactive
 			
 			return new ClosureObservable(function(observer : IObserver):ICancelable
 			{
-				var activeWindows : Array = new Array();
+				var activeWindows : Array = [];
 				
 				var nextSpanTime : Number = timeMs;
 				var nextShiftTime : Number = timeShiftMs;
@@ -1162,11 +1164,11 @@ package raix.reactive
 				
 				var windowSubscriptions : CompositeCancelable = new CompositeCancelable();
 				
-				var activeLeftSubjects : Array = new Array();
+				var activeLeftSubjects : Array = [];
 				// Need to track key/values seperately because Dictionary does not 
 				// guarantee enumeration order
-				var activeRightKeys : Array = new Array();
-				var activeRightValues : Array = new Array();
+				var activeRightKeys : Array = [];
+				var activeRightValues : Array = [];
 				var rightID : int = int.MIN_VALUE;
 				
 				var subscription : CompositeCancelable = new CompositeCancelable([
@@ -1358,8 +1360,8 @@ package raix.reactive
 			
 			return Observable.createWithCancelable(function(observer : IObserver) : ICancelable
 			{
-				var activeGroupKeys : Array = new Array();
-				var activeGroupSubjects : Array = new Array();
+				var activeGroupKeys : Array = [];
+				var activeGroupSubjects : Array = [];
 				
 				var onError : Function = function(error : Error) : void
 				{
@@ -1373,7 +1375,8 @@ package raix.reactive
 				
 				var findKey : Function = function(key : Object) : int
 				{
-					for (var i:int=0; i<activeGroupKeys.length; i++)
+					var len:int = activeGroupKeys.length;
+					for (var i:int=0; i<len; i++)
 					{
 						if (keyComparer(activeGroupKeys[i], key))
 						{
@@ -2278,7 +2281,7 @@ package raix.reactive
 			
 			return new ClosureObservable(function (observer : IObserver) : ICancelable
 			{
-				var buffer : Array = new Array();
+				var buffer : Array = [];
 				
 				var futureSubscription : MutableCancelable = new MutableCancelable();
 				
@@ -2521,7 +2524,7 @@ package raix.reactive
 			
 			return new ClosureObservable(function (observer : IObserver) : ICancelable
 			{
-				var buffer : Array = new Array();
+				var buffer : Array = [];
 				
 				var futureSubscription : MutableCancelable = new MutableCancelable();
 				
@@ -2774,7 +2777,7 @@ package raix.reactive
 			
 			return Observable.createWithCancelable(function(observer : IObserver):ICancelable
 			{
-				var buffer : Array = new Array();
+				var buffer : Array = [];
 				
 				return source.finallyAction(function():void
 				{
@@ -2898,10 +2901,10 @@ package raix.reactive
 				var canceled : Boolean = false;
 				
 				var leftComplete : Boolean = false;
-				var leftValues : Array = new Array();
+				var leftValues : Array = [];
 				
 				var rightComplete : Boolean = false;
-				var rightValues : Array = new Array();
+				var rightValues : Array = [];
 				
 				var leftSubscription : MutableCancelable = new MutableCancelable(), 
 				rightSubscription : MutableCancelable = new MutableCancelable();
