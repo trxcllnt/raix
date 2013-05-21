@@ -155,7 +155,7 @@ package raix.reactive.scheduling
 		public function get now() : Date { return new Date(); }
 		
 		private static var _instance : GreenThreadScheduler = new GreenThreadScheduler(
-			Observable.interval(100, Scheduler.immediate)
+			Observable.interval(1, Scheduler.immediate)
 			);
 		
 		/**

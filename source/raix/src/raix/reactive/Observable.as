@@ -19,6 +19,7 @@ package raix.reactive
 	import raix.reactive.scheduling.Scheduler;
 	import raix.reactive.subjects.AsyncSubject;
 	import raix.reactive.subjects.ReplaySubject;
+	import raix.reactive.impl.ErrorUtil;
 
 	/**
 	 * Provides static methods that create IObservable sequences
