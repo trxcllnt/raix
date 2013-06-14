@@ -2417,6 +2417,14 @@ package raix.reactive
 		/**
 		 * @inheritDoc
 		 */
+		public function endWith(value : *) : IObservable
+		{
+			return concat(toObservable(value));
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function switchMany(selector : Function) : IObservable
 		{
 			var source : IObservable = this.map(selector);

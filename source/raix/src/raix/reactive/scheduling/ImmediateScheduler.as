@@ -53,6 +53,15 @@ package raix.reactive.scheduling
 				if (_runningAction)
 				{
 					_pendingActions.push(action);
+					
+					return Cancelable.create(function():void
+					{
+						var index : int = _pendingActions.indexOf(action);
+						if (index != -1)
+						{
+							_pendingActions.splice(index, 1);						
+						}
+					});
 				}
 				else
 				{

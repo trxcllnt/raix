@@ -85,7 +85,7 @@ package raix.reactive.scheduling
 					{
 						_pendingActions.splice(index, 1);						
 					}
-				})
+				});
 			}
 		}
 		

@@ -617,13 +617,22 @@ package raix.reactive
 		function skipWhile(predicate : Function) : IObservable;
 		
 		/**
-		 * Emits the specified values at the start of a sequence 
+		 * Emits the specified values at the start of a sequence.
 		 * @param value That value, converted to an IObservable using toObservable, that will 
 		 * be emitted at the start of the current sequence
 		 * @return An observable sequence of the same valueClass as the current sequence
 		 * @see raix.reactive.toObservable 
 		 */
 		function startWith(value : *) : IObservable;
+		
+		/**
+		 * Emits the specified values at the end of a sequence.
+		 * @param value That value, converted to an IObservable using toObservable, that will 
+		 * be emitted at the end of the current sequence
+		 * @return An observable sequence of the same valueClass as the current sequence
+		 * @see raix.reactive.toObservable 
+		 */
+		function endWith(value : *) : IObservable;
 		
 		/**
 		 * Like selectMany, starts a new sequence for every value in the source 
