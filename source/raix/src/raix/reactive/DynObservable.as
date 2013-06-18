@@ -1505,6 +1505,49 @@ package raix.reactive
 		/**
 		 * @inheritDoc
 		 */
+		public function distinct(keySelector:Function = null):IObservable {
+			var source : IObservable = this;
+			
+			var defaultSelector : Function = function(a:Object) : Object { return a; }
+			
+			keySelector = (keySelector == null)
+				? defaultSelector
+				: keySelector;
+			
+			return new ClosureObservable(function(observer : IObserver) : ICancelable
+			{
+				const cache:Dictionary = new Dictionary(true);
+				
+				return source.subscribe(
+					function(pl:Object) : void
+					{
+						try
+						{
+							var key:Object = keySelector(pl);
+						}
+						catch (err:Error)
+						{
+							observer.onError(err);
+							return;
+						}
+						
+						if(cache[key] == undefined)
+						{
+							observer.onNext(pl);
+						}
+						
+						cache[key] = true;
+					},
+					
+					observer.onCompleted,
+					observer.onError
+				);
+			});
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function distinctUntilChanged(comparer:Function = null):IObservable
 		{
 			var source : IObservable = this;
@@ -2086,8 +2129,6 @@ package raix.reactive
 		 */
 		public function mapMany(selector:Function):IObservable
 		{
-			var source : IObservable = this;
-			
 			return Observable.merge(this.map(selector)); 
 		}
 		

@@ -335,6 +335,14 @@ package raix.reactive
 		function ignoreValues() : IObservable;
 		
 		/**
+		 * Filters out duplicates from a source sequence  
+		 * @param comparer (optional) The function used to compare values. Default equality will be used if comparer is null.
+		 * function(x:TValue, y:TValue) : Boolean
+		 * @return An observable sequence of the same type as the current sequence
+		 */		
+		function distinct(comparer : Function = null) : IObservable;
+		
+		/**
 		 * Filters out consecutive duplicates from a source sequence  
 		 * @param comparer (optional) The function used to compare values. Default equality will be used if comparer is null.
 		 * function(x:TValue, y:TValue) : Boolean
