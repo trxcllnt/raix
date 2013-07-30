@@ -3,6 +3,7 @@ package raix.reactive.scheduling
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.utils.getTimer;
 	
 	import raix.reactive.*;
 	
@@ -16,15 +17,16 @@ package raix.reactive.scheduling
 	 * <p>To benefit from GreenThreadScheduler, scheduled actions should execute in 
 	 * this smallest possible time (ie. be designed to be run many times</p>
 	 */	
-	public class GreenThreadScheduler implements IScheduler
+	public class ImmediateGreenThreadScheduler implements IScheduler
 	{
 		private var _runningAction : Boolean = false;
 		private var _pendingActions : Array = [];
+		private var _rollingRunTime : Number = 0;
 		
 		private var _contextSwitchObservable : IObservable;
 		private var _contextSwitchSubscription : ICancelable;
 		
-		public function GreenThreadScheduler(contextSwitchObservable : IObservable)
+		public function ImmediateGreenThreadScheduler(contextSwitchObservable : IObservable)
 		{
 			_contextSwitchObservable = contextSwitchObservable;
 		}
@@ -72,8 +74,13 @@ package raix.reactive.scheduling
 			{
 				_pendingActions.push(action);
 				
-				if (_contextSwitchSubscription == null)
+				if(_rollingRunTime < _contextSwitchTime)
 				{
+					executeGreenThread();
+				}
+				else if (_contextSwitchSubscription == null)
+				{
+					_rollingRunTime = 0;
 					_contextSwitchSubscription = _contextSwitchObservable
 						.subscribe(executeGreenThread);
 				}
@@ -91,9 +98,9 @@ package raix.reactive.scheduling
 		
 		private function executeGreenThread(... args) : void
 		{
-			var startTime : Number = new Date().time;
+			const startTime : Number = getTimer();//new Date().time;
+			const maxRunTime : Number = _contextSwitchTime;
 			var runTime : Number = 0;
-			var maxRunTime : Number = _contextSwitchTime;
 			
 			_runningAction = true;
 			
@@ -105,10 +112,13 @@ package raix.reactive.scheduling
 				{
 					(_pendingActions.shift())();
 					
-					runTime = new Date().time - startTime;
+					// runTime = new Date().time - startTime;
+					runTime = getTimer() - startTime;
 					
 					iterations++;
 				}
+				
+				_rollingRunTime += runTime;
 				
 				// trace(iterations + " iterations on green thread");
 				
@@ -140,7 +150,7 @@ package raix.reactive.scheduling
 			}
 		}
 		
-		private var _contextSwitchTime : Number = 100;
+		private var _contextSwitchTime : Number = 33; // keep that framerate high
 		
 		/**
 		 * Gets or sets the amount of time, in milliseconds, to allocate to 
@@ -154,14 +164,14 @@ package raix.reactive.scheduling
 		 */		
 		public function get now() : Date { return new Date(); }
 		
-		private static var _instance : GreenThreadScheduler = new GreenThreadScheduler(
+		private static var _instance : ImmediateGreenThreadScheduler = new ImmediateGreenThreadScheduler(
 			Observable.interval(1, Scheduler.immediate)
-			);
+		);
 		
 		/**
 		 * Gets the singleton instance of this scheduler
 		 */
-		public static function get instance() : GreenThreadScheduler 
+		public static function get instance() : ImmediateGreenThreadScheduler
 		{
 			return _instance;
 		}

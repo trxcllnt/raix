@@ -15,6 +15,8 @@ package raix.reactive.scheduling
 		private var _runningAction : Boolean = false;
 		private var _pendingActions : Array = [];
 		
+		public function ImmediateScheduler() {}
+		
 		/**
 		 * @inheritDoc
 		 */
@@ -50,10 +52,10 @@ package raix.reactive.scheduling
 			}
 			else
 			{
+				_pendingActions.push(action);
+				
 				if (_runningAction)
 				{
-					_pendingActions.push(action);
-					
 					return Cancelable.create(function():void
 					{
 						var index : int = _pendingActions.indexOf(action);
@@ -66,8 +68,6 @@ package raix.reactive.scheduling
 				else
 				{
 					_runningAction = true;
-					
-					_pendingActions.push(action);
 					
 					try
 					{

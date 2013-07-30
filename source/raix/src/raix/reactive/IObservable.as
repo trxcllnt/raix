@@ -461,9 +461,9 @@ package raix.reactive
 		/**
 		 * Creates a connectable sequence that can be shared by multiple observers, using a specific 
 		 * subject implementation. 
-		 * @param subject The subject that will messages and subscriptions
+		 * @param subject The subject that will dispatch messages and subscriptions
 		 * @return A connectable observable
-		 */		
+		 */
 		function multicast(subject : ISubject) : IConnectableObservable;
 		
 		/**
@@ -475,7 +475,7 @@ package raix.reactive
 		 * that will supply values to the subject
 		 * @return An observable sequence that contains messages from the selector-returned sequence, piped 
 		 * through the subject supplied by subjectSelector
-		 */		
+		 */
 		function multicastDefer(subjectSelector : Function, selector : Function) : IObservable
 		
 		/**
@@ -580,7 +580,7 @@ package raix.reactive
 		 * @param valueComparer The equality comparer to compare values between sequences:
 		 * function(value : TValue, otherValue : TOther) : Boolean
 		 * @return An observable sequence that will emit a single boolean value once equality has been determined
-		 */		
+		 */
 		function sequenceEqual(other : IObservable, valueComparer : Function = null) : IObservable;
 		
 		/**

@@ -40,6 +40,14 @@ package raix.reactive.scheduling
 		}
 		
 		/**
+		 * Gets the GreenThreadScheduler singleton instance
+		 */
+		public static function get immediateGreenThread() : ImmediateGreenThreadScheduler
+		{
+			return ImmediateGreenThreadScheduler.instance;
+		}
+		
+		/**
 		 * Gets the default scheduler
 		 */
 		public static function get defaultScheduler() : IScheduler
