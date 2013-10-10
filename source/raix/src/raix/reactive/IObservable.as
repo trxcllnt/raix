@@ -337,7 +337,7 @@ package raix.reactive
 		/**
 		 * Filters out duplicates from a source sequence  
 		 * @param comparer (optional) The function used to compare values. Default equality will be used if comparer is null.
-		 * function(x:TValue, y:TValue) : Boolean
+		 * function(x:TValue) : Key
 		 * @return An observable sequence of the same type as the current sequence
 		 */		
 		function distinct(comparer : Function = null) : IObservable;
@@ -735,6 +735,12 @@ package raix.reactive
 		 * @return An observable sequence of Array that will contain the same valueClass as the current sequence
 		 */
 		function toArray():IObservable;
+		
+		/**
+		 * Scans the results into an array as the source emits the values. 
+		 * @return An observable sequence of Array that will contain the same valueClass as the current sequence
+		 */
+		function scanToArray(immutable:Boolean = true):IObservable;
 		
 		/**
 		 * Splits values into child-observable windows which are closed by the caller

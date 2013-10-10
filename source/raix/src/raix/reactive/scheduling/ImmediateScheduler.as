@@ -91,6 +91,10 @@ package raix.reactive.scheduling
 			}
 		}
 		
+		public function scheduleRequired():Boolean {
+			return _pendingActions.length == 0;
+		}
+		
 		/**
 		 * @inheritDoc
 		 */

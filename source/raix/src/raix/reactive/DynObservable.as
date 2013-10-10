@@ -1445,13 +1445,6 @@ package raix.reactive
 							
 							observer.onNext(group);
 							
-							// Dispatch the element on the Scheduler, because
-							// observers may have been added to the group that
-							// are awaiting subscription in the Scheduler queue.
-							Scheduler.immediate.schedule(function():void {
-								groupSubject.onNext(element);
-							}, 1);
-							
 							durationSubscription.cancelable = groupDuration
 							.take(1).subscribe(null, function():void
 							{
@@ -1472,6 +1465,15 @@ package raix.reactive
 								activeGroupKeys.splice(keyIndex, 1);
 								activeGroupSubjects.splice(keyIndex, 1);
 							});
+							
+							groupSubject.onNext(element);
+							
+							// Dispatch the element on the Scheduler, because
+							// observers may have been added to the group that
+							// are awaiting subscription in the Scheduler queue.
+							// Scheduler.immediate.schedule(function():void {
+							//	groupSubject.onNext(element);
+							// });
 						}
 					}, observer.onCompleted, onError);
 				
@@ -2844,6 +2846,24 @@ package raix.reactive
 					},
 					observer.onError);
 			});
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function scanToArray(immutable:Boolean = true):IObservable
+		{
+			return this.scan(function(acc:Array, value:*):Array {
+				
+				if(immutable)
+				{
+					return acc.concat(value is Array ? [value] : value);
+				}
+				
+				acc.push(value);
+				
+				return acc;
+			}, [], true);
 		}
 		
 		/**

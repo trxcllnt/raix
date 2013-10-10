@@ -1,8 +1,8 @@
 package raix.reactive
 {
 	import raix.reactive.AbsObservable;
-	import raix.reactive.IObserver;
 	import raix.reactive.ICancelable;
+	import raix.reactive.IObserver;
 	import raix.reactive.scheduling.Scheduler;
 	
 	internal class ClosureObservable extends AbsObservable
@@ -16,17 +16,19 @@ package raix.reactive
 		
 		public override function subscribeWith(observer : IObserver) : ICancelable 
 		{
-			// TODO: What is observer is already a SafetyObserver (eg. select().first())?
+			// TODO: What if observer is already a SafetyObserver (eg. select().first())?
 			var safetyObserver : SafetyObserver = new SafetyObserver(observer);
 			
 			var subscription : MutableCancelable = new MutableCancelable();
 			safetyObserver.setSubscription(subscription);
 			
-			Scheduler.immediate.schedule(function():void
-			{
+			if(Scheduler.immediate.scheduleRequired()) {
+				Scheduler.immediate.schedule(function():void {
+					subscription.cancelable = ICancelable(_observeFunc(safetyObserver));
+				});
+			} else {
 				subscription.cancelable = ICancelable(_observeFunc(safetyObserver));
-			});
-			
+			}
 			
 			return subscription; 
 		}
